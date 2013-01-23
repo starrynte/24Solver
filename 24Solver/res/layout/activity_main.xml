@@ -31,7 +31,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_below="@id/number_input"
-        android:layout_above="@+id/calculate" />
+        android:layout_above="@+id/calculate"
+        android:transcriptMode="normal" />
     <Button
         android:id="@id/calculate"
         android:layout_width="match_parent"
