@@ -7,6 +7,6 @@
     <string name="calculate">Calculate</string>
     <string name="title_activity_results">Results</string>
     <string name="number_input">Enter numbers here</string>
-    <string name="number_add">Add!</string>
+    <string name="number_add">Add</string>
 
 </resources>

@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MainActivity extends Activity
 {
@@ -26,6 +30,19 @@ public class MainActivity extends Activity
 		numberList = new ArrayList<Integer>();
 		adapter = new ArrayAdapter<Integer>(this, R.layout.item_number, numberList);
 		((ListView) findViewById(R.id.number_list)).setAdapter(adapter);
+		((EditText) findViewById(R.id.number_input)).setOnEditorActionListener(new TextView.OnEditorActionListener()
+		{
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+			{
+				if (actionId == EditorInfo.IME_NULL || actionId == EditorInfo.IME_ACTION_SEND)
+				{
+					add(v);
+					return true;
+				}
+				return false;
+			}
+		});
 	}
 
 	@Override
@@ -45,18 +62,13 @@ public class MainActivity extends Activity
 
 	public void calculate(View view)
 	{
-		/*
-		EditText numberList = (EditText) findViewById(R.id.number_list);
-		String[] numbersRaw = numberList.getText().toString().trim().split("\\s+");
-		int[] numbers = new int[numbersRaw.length];
-		for (int i = 0; i < numbersRaw.length; i++)
+		int[] numberArray = new int[numberList.size()];
+		for (int i = 0; i < numberList.size(); i++)
 		{
-			numbers[i] = Integer.parseInt(numbersRaw[i]);
+			numberArray[i] = numberList.get(i);
 		}
 		Intent results = new Intent(this, ResultsActivity.class);
-		results.putExtra(EXTRA_NUMBERS, numbers);
+		results.putExtra(EXTRA_NUMBERS, numberArray);
 		startActivity(results); //consider startActivityForResult
-		*/
 	}
-
 }

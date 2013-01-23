@@ -15,7 +15,8 @@
         android:layout_alignBaseline="@id/add"
         android:hint="@string/number_input"
         android:inputType="number"
-        android:imeOptions="actionNone" />
+        android:imeOptions="actionSend"
+        android:imeActionLabel="@string/number_add" />
     <Button
         android:id="@id/add"
         android:layout_width="wrap_content"
