@@ -8,5 +8,8 @@
     <string name="title_activity_results">Results</string>
     <string name="number_input">Enter numbers here</string>
     <string name="number_add">Add</string>
+    <string name="number_edit">Change number</string>
+    <string name="number_save">Save</string>
+    <string name="number_delete">Delete</string>
 
 </resources>
