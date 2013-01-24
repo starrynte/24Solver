@@ -1,7 +1,6 @@
 package org.starrynte.solver24;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,14 +15,16 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity
 {
 	public final static String EXTRA_NUMBERS = "org.starrynte.solver24.NUMBERS";
+	private final static String BUNDLE_NUMBERS = "numbers";
 	ArrayAdapter<Integer> adapter;
-	List<Integer> numberList;
+	ArrayList<Integer> numberList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -31,11 +32,11 @@ public class MainActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		numberList = new ArrayList<Integer>();
+		numberList = (savedInstanceState != null) ? savedInstanceState.getIntegerArrayList(BUNDLE_NUMBERS) : new ArrayList<Integer>();
 		adapter = new ArrayAdapter<Integer>(this, R.layout.item_number, numberList);
-		ListView listView = (ListView) findViewById(R.id.number_list);
-		listView.setAdapter(adapter);
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+		GridView gridView = (GridView) findViewById(R.id.number_list);
+		gridView.setAdapter(adapter);
+		gridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -66,17 +67,33 @@ public class MainActivity extends Activity
 		return true;
 	}
 
+	@Override
+	protected void onSaveInstanceState(Bundle outState)
+	{
+		super.onSaveInstanceState(outState);
+		outState.putIntegerArrayList(BUNDLE_NUMBERS, numberList);
+	}
+
 	public void add(View view)
 	{
 		EditText editText = (EditText) findViewById(R.id.number_input);
-		String number = editText.getText().toString();
-		if (number.length() > 0)
-			adapter.add(Integer.valueOf(number));
-		editText.setText("");
+		try
+		{
+			int number = Integer.valueOf(editText.getText().toString());
+			adapter.add(number);
+			editText.setText("");
+		} catch (NumberFormatException e)
+		{
+			Toast.makeText(this, R.string.number_invalid, Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	public void calculate(View view)
 	{
+		if (numberList.size() == 0)
+		{
+			Toast.makeText(this, R.string.no_numbers, Toast.LENGTH_SHORT).show();
+		}
 		int[] numberArray = new int[numberList.size()];
 		for (int i = 0; i < numberList.size(); i++)
 		{
