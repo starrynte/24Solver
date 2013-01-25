@@ -76,6 +76,10 @@ public class MainActivity extends Activity
 
 	public void add(View view)
 	{
+		if (numberList.size() >= 6)
+		{
+			Toast.makeText(this, R.string.number_limit, Toast.LENGTH_SHORT).show();
+		}
 		EditText editText = (EditText) findViewById(R.id.number_input);
 		try
 		{

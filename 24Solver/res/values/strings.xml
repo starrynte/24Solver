@@ -13,5 +13,6 @@
     <string name="number_delete">Delete</string>
     <string name="number_invalid">Invalid number!</string>
     <string name="no_numbers">No numbers to calculate!</string>
+    <string name="number_limit">Too many numbers!</string>
 
 </resources>

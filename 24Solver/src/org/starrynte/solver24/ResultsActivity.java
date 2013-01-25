@@ -61,6 +61,4 @@ public class ResultsActivity extends Activity
 		return super.onOptionsItemSelected(item);
 	}
 
-
-
 }
