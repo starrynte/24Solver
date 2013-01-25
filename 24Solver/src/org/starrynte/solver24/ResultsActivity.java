@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class ResultsActivity extends Activity
@@ -19,20 +20,11 @@ public class ResultsActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 
+		setContentView(R.layout.activity_results);
+
 		Intent intent = getIntent();
-		int[] numbers = intent.getIntArrayExtra(MainActivity.EXTRA_NUMBERS);
-		String resultsText = "";
-		int sum = 0;
-		for (int number : numbers)
-		{
-			resultsText += number + " + ";
-			sum += number;
-		}
-
-		TextView results = new TextView(this);
-		results.setText(resultsText.substring(0, resultsText.length() - 2) + " = " + sum);
-
-		setContentView(results);
+		new CalculateTask((TextView) findViewById(R.id.results_list), (ProgressBar) findViewById(R.id.results_progress))
+				.execute(intent.getIntArrayExtra(MainActivity.EXTRA_NUMBERS)); //threading
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 		{
@@ -68,5 +60,7 @@ public class ResultsActivity extends Activity
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+
 
 }
