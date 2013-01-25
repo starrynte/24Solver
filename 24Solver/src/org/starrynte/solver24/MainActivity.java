@@ -79,7 +79,7 @@ public class MainActivity extends Activity
 		EditText editText = (EditText) findViewById(R.id.number_input);
 		try
 		{
-			int number = Integer.valueOf(editText.getText().toString());
+			Integer number = Integer.valueOf(editText.getText().toString());
 			adapter.add(number);
 			editText.setText("");
 		} catch (NumberFormatException e)
@@ -88,20 +88,37 @@ public class MainActivity extends Activity
 		}
 	}
 
+	private boolean set(int index, String numberString)
+	{
+		try
+		{
+			Integer number = Integer.valueOf(numberString);
+			numberList.set(index, number);
+			adapter.notifyDataSetChanged();
+			return true;
+		} catch (NumberFormatException e)
+		{
+			Toast.makeText(this, R.string.number_invalid, Toast.LENGTH_SHORT).show();
+			return false;
+		}
+	}
+
 	public void calculate(View view)
 	{
 		if (numberList.size() == 0)
 		{
 			Toast.makeText(this, R.string.no_numbers, Toast.LENGTH_SHORT).show();
-		}
-		int[] numberArray = new int[numberList.size()];
-		for (int i = 0; i < numberList.size(); i++)
+		} else
 		{
-			numberArray[i] = numberList.get(i);
+			int[] numberArray = new int[numberList.size()];
+			for (int i = 0; i < numberList.size(); i++)
+			{
+				numberArray[i] = numberList.get(i);
+			}
+			Intent results = new Intent(this, ResultsActivity.class);
+			results.putExtra(EXTRA_NUMBERS, numberArray);
+			startActivity(results); //consider startActivityForResult
 		}
-		Intent results = new Intent(this, ResultsActivity.class);
-		results.putExtra(EXTRA_NUMBERS, numberArray);
-		startActivity(results); //consider startActivityForResult
 	}
 
 	private void showNumberEditDialog(final int index)
@@ -124,8 +141,7 @@ public class MainActivity extends Activity
 					@Override
 					public void onClick(DialogInterface dialog, int which)
 					{
-						numberList.set(index, Integer.parseInt(editText.getText().toString()));
-						adapter.notifyDataSetChanged();
+						set(index, editText.getText().toString());
 					}
 				});
 
@@ -140,9 +156,8 @@ public class MainActivity extends Activity
 			{
 				if (actionId == EditorInfo.IME_NULL || actionId == EditorInfo.IME_ACTION_SEND)
 				{
-					numberList.set(index, Integer.parseInt(v.getText().toString()));
-					adapter.notifyDataSetChanged();
-					dialog.dismiss();
+					if (set(index, v.getText().toString()))
+						dialog.dismiss();
 					return true;
 				}
 				return false;
