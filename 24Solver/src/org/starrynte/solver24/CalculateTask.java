@@ -1,7 +1,8 @@
 package org.starrynte.solver24;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Stack;
+import java.util.List;
 
 import android.os.AsyncTask;
 import android.widget.ProgressBar;
@@ -39,36 +40,37 @@ public class CalculateTask extends AsyncTask<int[], Object, Void>
 				byte[] operations = new byte[nTemp];
 				do
 				{
-					Stack<Double> stack = new Stack<Double>();
-					stack.push(numbers[0]);
+					List<Double> stack = new ArrayList<Double>();
+					stack.add(0, numbers[0]);
 					int numberIndex = 1, operIndex = 0;
 					for (int i = 31 - Integer.numberOfLeadingZeros(dyck); i >= 0; i--)
 					{
 						if ((dyck & (1 << i)) == 0)
 						{
+							double a = stack.remove(1), b = stack.get(0);
 							switch (operations[operIndex++])
 							{
 							case OPER_ADD:
-								stack.push(stack.pop() + stack.pop());
+								stack.set(0, a + b);
 								break;
 							case OPER_SUB:
-								stack.push(stack.pop() - stack.pop());
+								stack.set(0, a - b);
 								break;
 							case OPER_MUL:
-								stack.push(stack.pop() * stack.pop());
+								stack.set(0, a * b);
 								break;
 							case OPER_DIV:
-								stack.push(stack.pop() / stack.pop());
+								stack.set(0, a / b);
 								break;
 							}
 						} else
 						{
-							stack.push(numbers[numberIndex++]);
+							stack.add(0, numbers[numberIndex++]);
 						}
 					}
-					if (Math.abs(stack.pop() - 24) < 1E-4)
+					if (Math.abs(stack.remove(0) - 24) < 1E-4)
 					{
-						publishProgress((int) (1000 * counter / ITERATIONS[nTemp]), Arrays.toString(numbers) + " " + Integer.toBinaryString(dyck) + " " + Arrays.toString(operations));
+						publishProgress((int) (1000 * counter / ITERATIONS[nTemp]), getString(numbers, dyck, operations));
 					}
 
 					counter++;
@@ -186,4 +188,38 @@ public class CalculateTask extends AsyncTask<int[], Object, Void>
 		}
 		return false;
 	}
+
+	private String getString(double[] numbers, int dyck, byte[] operations)
+	{
+		List<String> stack = new ArrayList<String>();
+		stack.add(0, String.valueOf(numbers[0]));
+		int numberIndex = 1, operIndex = 0;
+		for (int i = 31 - Integer.numberOfLeadingZeros(dyck); i >= 0; i--)
+		{
+			if ((dyck & (1 << i)) == 0)
+			{
+				String a = stack.remove(1), b = stack.get(0);
+				switch (operations[operIndex++])
+				{
+				case OPER_ADD:
+					stack.set(0, "(" + a + " + " + b + ")");
+					break;
+				case OPER_SUB:
+					stack.set(0, "(" + a + " - " + b + ")");
+					break;
+				case OPER_MUL:
+					stack.set(0, "(" + a + " * " + b + ")");
+					break;
+				case OPER_DIV:
+					stack.set(0, "(" + a + " / " + b + ")");
+					break;
+				}
+			} else
+			{
+				stack.add(0, String.valueOf(numbers[numberIndex++]));
+			}
+		}
+		return stack.remove(0);
+	}
+
 }
