@@ -14,5 +14,6 @@
     <string name="number_invalid">Invalid number!</string>
     <string name="no_numbers">No numbers to calculate!</string>
     <string name="number_limit">Too many numbers!</string>
+    <string name="number_reset">Reset</string>
 
 </resources>

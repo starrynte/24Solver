@@ -21,10 +21,19 @@
         android:id="@id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/reset"
         android:text="@string/number_add"
         android:onClick="add"
+         />
+    <Button
+        android:id="@id/reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/number_reset"
+        android:onClick="reset"
          />
     <GridView
         android:id="@+id/number_list"

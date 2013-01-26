@@ -125,6 +125,11 @@ public class MainActivity extends Activity
 		}
 	}
 
+	public void reset(View view)
+	{
+		adapter.clear();
+	}
+
 	private void showNumberEditDialog(final int index)
 	{
 		final EditText editText = (EditText) getLayoutInflater().inflate(R.layout.number_edit, null);
