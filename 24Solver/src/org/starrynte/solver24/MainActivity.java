@@ -79,16 +79,18 @@ public class MainActivity extends Activity
 		if (numberList.size() >= 6)
 		{
 			Toast.makeText(this, R.string.number_limit, Toast.LENGTH_SHORT).show();
-		}
-		EditText editText = (EditText) findViewById(R.id.number_input);
-		try
+		} else
 		{
-			Integer number = Integer.valueOf(editText.getText().toString());
-			adapter.add(number);
-			editText.setText("");
-		} catch (NumberFormatException e)
-		{
-			Toast.makeText(this, R.string.number_invalid, Toast.LENGTH_SHORT).show();
+			EditText editText = (EditText) findViewById(R.id.number_input);
+			try
+			{
+				Integer number = Integer.valueOf(editText.getText().toString());
+				adapter.add(number);
+				editText.setText("");
+			} catch (NumberFormatException e)
+			{
+				Toast.makeText(this, R.string.number_invalid, Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 

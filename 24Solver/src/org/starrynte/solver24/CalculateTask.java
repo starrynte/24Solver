@@ -24,6 +24,12 @@ public class CalculateTask extends AsyncTask<int[], Object, Void>
 	{
 		int[] temp = params[0];
 		int nTemp = temp.length - 1;
+		if (nTemp == 0)
+		{
+			if (temp[0] == 24)
+				publishProgress(1000, temp[0] + " = 24");
+			return null;
+		}
 		double[] numbers = new double[temp.length];
 		for (int i = 0; i <= nTemp; i++)
 			numbers[i] = temp[i];
@@ -190,7 +196,7 @@ public class CalculateTask extends AsyncTask<int[], Object, Void>
 	private String getString(double[] numbers, int dyck, byte[] operations)
 	{
 		String[] stack = new String[numbers.length];
-		stack[0] = String.valueOf(numbers[0]);
+		stack[0] = String.valueOf((int) numbers[0]);
 		int numberIndex = 1, operIndex = 0, stackIndex = 1;
 		for (int i = 31 - Integer.numberOfLeadingZeros(dyck); i >= 0; i--)
 		{
@@ -214,7 +220,7 @@ public class CalculateTask extends AsyncTask<int[], Object, Void>
 				}
 			} else
 			{
-				stack[stackIndex++] = String.valueOf(numbers[numberIndex++]);
+				stack[stackIndex++] = String.valueOf((int) numbers[numberIndex++]);
 			}
 		}
 		return stack[0].substring(1, stack[0].length() - 1);
