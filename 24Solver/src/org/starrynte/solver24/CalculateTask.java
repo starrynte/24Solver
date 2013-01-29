@@ -35,6 +35,7 @@ public class CalculateTask extends AsyncTask<int[], Object, Void>
 			numbers[i] = temp[i];
 		Arrays.sort(numbers);
 
+		boolean foundSolution = false;
 		int counter = 0;
 		do
 		{
@@ -75,6 +76,7 @@ public class CalculateTask extends AsyncTask<int[], Object, Void>
 					if (Math.abs(stack[0] - 24) < 1E-4)
 					{
 						publishProgress((int) (1000 * counter / ITERATIONS[nTemp]), getString(numbers, dyck, operations));
+						foundSolution = true;
 					}
 
 					counter++;
@@ -83,7 +85,11 @@ public class CalculateTask extends AsyncTask<int[], Object, Void>
 				} while (nextOperations(operations));
 			} while ((dyck = nextDyck(dyck)) != 0);
 		} while (nextPermutation(numbers));
-		publishProgress(1000);
+
+		if (foundSolution)
+			publishProgress(1000);
+		else
+			publishProgress(1000, "No solutions found.");
 		return null;
 	}
 
