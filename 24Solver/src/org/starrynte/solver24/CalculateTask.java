@@ -26,8 +26,7 @@ public class CalculateTask extends AsyncTask<int[], Object, Void>
 		int nTemp = temp.length - 1;
 		if (nTemp == 0)
 		{
-			if (temp[0] == 24)
-				publishProgress(1000, temp[0] + " = 24");
+			publishProgress(1000, (temp[0] == 24) ? temp[0] + " = 24" : "No solutions found.");
 			return null;
 		}
 		double[] numbers = new double[temp.length];
